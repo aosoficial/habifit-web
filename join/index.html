@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Únete a una liga de HabiFit</title>
+  <meta name="description" content="Abre HabiFit para unirte a una liga privada de gimnasio.">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f5f2;
+      --surface: #ffffff;
+      --ink: #181512;
+      --muted: #706a63;
+      --line: #e4ded7;
+      --flame: #ff6b35;
+      --flame-dark: #d94f1f;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    main {
+      width: min(100%, 430px);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 28px;
+      box-shadow: 0 18px 40px rgba(24, 21, 18, 0.08);
+    }
+
+    .badge {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 107, 53, 0.12);
+      color: var(--flame);
+      font-size: 30px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    .code {
+      margin: 22px 0;
+      padding: 16px;
+      border-radius: 8px;
+      background: #fbfaf8;
+      border: 1px solid var(--line);
+    }
+
+    .code span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .code strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+      font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+      letter-spacing: 0;
+      word-break: break-word;
+    }
+
+    .actions {
+      display: grid;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    a,
+    button {
+      width: 100%;
+      min-height: 48px;
+      border-radius: 8px;
+      border: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: var(--flame);
+      color: #fff;
+    }
+
+    .primary:hover {
+      background: var(--flame-dark);
+    }
+
+    .secondary {
+      background: #f0ebe5;
+      color: var(--ink);
+    }
+
+    .fine-print {
+      margin-top: 18px;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="badge" aria-hidden="true">H</div>
+    <h1>Te han retado a ir al gimnasio</h1>
+    <p>Abre HabiFit para entrar en la liga privada. Cada día verificado suma un punto al ranking semanal.</p>
+
+    <div class="code">
+      <span>Código de liga</span>
+      <strong id="invite-code">CARGANDO</strong>
+    </div>
+
+    <div class="actions">
+      <a class="primary" id="open-app" href="habifit://join/">Abrir HabiFit</a>
+      <a class="secondary" id="download-app" href="https://apps.apple.com/app/habifit/id6777671421">Descargar en App Store</a>
+      <button class="secondary" id="copy-code" type="button">Copiar código</button>
+    </div>
+
+    <p class="fine-print">Si acabas de instalar la app, vuelve a abrir este enlace o copia el código para unirte desde Liga.</p>
+  </main>
+
+  <script>
+    const APP_STORE_URL = "https://apps.apple.com/app/habifit/id6777671421";
+
+    function cleanInviteCode(value) {
+      return (value || "")
+        .trim()
+        .toUpperCase()
+        .replace(/[^A-Z0-9-]/g, "");
+    }
+
+    function inviteCodeFromLocation() {
+      const url = new URL(window.location.href);
+      const fromQuery = url.searchParams.get("invite") || url.searchParams.get("code");
+      if (fromQuery) return cleanInviteCode(fromQuery);
+      const parts = url.pathname.split("/").filter(Boolean);
+      const joinIndex = parts.findIndex((part) => part.toLowerCase() === "join");
+      return cleanInviteCode(joinIndex >= 0 ? parts[joinIndex + 1] : "");
+    }
+
+    const inviteCode = inviteCodeFromLocation();
+    const codeLabel = document.getElementById("invite-code");
+    const openApp = document.getElementById("open-app");
+    const downloadApp = document.getElementById("download-app");
+    const copyCode = document.getElementById("copy-code");
+
+    codeLabel.textContent = inviteCode || "SIN-CODIGO";
+    openApp.href = inviteCode ? `habifit://join/${encodeURIComponent(inviteCode)}` : "habifit://join/";
+    downloadApp.href = APP_STORE_URL;
+
+    copyCode.addEventListener("click", async () => {
+      if (!inviteCode) return;
+      await navigator.clipboard.writeText(inviteCode);
+      copyCode.textContent = "Código copiado";
+    });
+  </script>
+</body>
+</html>

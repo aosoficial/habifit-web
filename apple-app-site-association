@@ -1,0 +1,22 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appIDs": [
+          "6UGRP2UVCG.com.aosoficial.habifit"
+        ],
+        "components": [
+          {
+            "/": "/join/*",
+            "comment": "Join a private HabiFit league"
+          },
+          {
+            "/": "/l/*",
+            "comment": "Short league invite link"
+          }
+        ]
+      }
+    ]
+  }
+}

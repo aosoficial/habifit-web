@@ -1,0 +1,28 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": true,
+  "headers": [
+    {
+      "source": "/apple-app-site-association",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/l/:code",
+      "destination": "/join/?invite=:code",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/join/:code",
+      "destination": "/join/?invite=:code"
+    }
+  ]
+}

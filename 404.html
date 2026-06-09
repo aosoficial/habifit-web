@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HabiFit</title>
+</head>
+<body>
+  <script>
+    const parts = window.location.pathname.split("/").filter(Boolean);
+    const repoPrefix = parts[0] === "habifit-web" ? "/habifit-web" : "";
+    const scopedParts = repoPrefix ? parts.slice(1) : parts;
+    const joinIndex = scopedParts.findIndex((part) => part.toLowerCase() === "join");
+    if (joinIndex >= 0 && scopedParts[joinIndex + 1]) {
+      const code = encodeURIComponent(scopedParts[joinIndex + 1]);
+      window.location.replace(`${repoPrefix}/join/?invite=${code}`);
+    } else {
+      window.location.replace(`${repoPrefix}/join/`);
+    }
+  </script>
+  <p>Abriendo HabiFit...</p>
+</body>
+</html>

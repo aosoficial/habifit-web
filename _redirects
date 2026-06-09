@@ -1,0 +1,3 @@
+/join/:code  /join/?invite=:code  302
+/l/:code     /join/?invite=:code  302
+/*           /404.html            404

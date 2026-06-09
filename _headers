@@ -1,0 +1,14 @@
+/apple-app-site-association
+  Content-Type: application/json
+
+/privacy/*
+  Cache-Control: public, max-age=3600
+
+/support/*
+  Cache-Control: public, max-age=3600
+
+/terms/*
+  Cache-Control: public, max-age=3600
+
+/join/*
+  Cache-Control: public, max-age=300
